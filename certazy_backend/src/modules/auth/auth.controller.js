@@ -39,7 +39,7 @@ const login = async (req, res, next) => {
     setCookies(res, result)
     return success(res, {
       message: 'Login successful',
-      data   : { user: result.user, isFirstLogin: result.isFirstLogin },
+      data   : { user: result.user, isFirstLogin: result.isFirstLogin, accessToken: result.accessToken },
     })
   } catch (err) {
     next(err)
@@ -51,7 +51,10 @@ const refresh = async (req, res, next) => {
     const refreshToken = req.cookies?.refreshToken
     const tokens = await service.refresh(refreshToken)
     setCookies(res, tokens)
-    return success(res, { message: 'Token refreshed' })
+    return success(res, {
+      message: 'Token refreshed',
+      data   : { accessToken: tokens.accessToken },
+    })
   } catch (err) {
     next(err)
   }
