@@ -105,12 +105,12 @@ const getRevenueStats = async () => {
   const [monthlyRes] = await pool.query(
     `SELECT 
        DATE_FORMAT(created_at, '%b') AS month,
-       DATE_FORMAT(created_at, '%Y-%m') AS year_month,
+       DATE_FORMAT(created_at, '%Y-%m') AS period,
        COALESCE(SUM(amount), 0) AS revenue
      FROM payments
      WHERE status = 'success' AND created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-     GROUP BY year_month, month
-     ORDER BY year_month ASC`
+     GROUP BY period, month
+     ORDER BY period ASC`
   )
   
   const totalRevenue = Number(totalRes[0]?.total_revenue || 0)
