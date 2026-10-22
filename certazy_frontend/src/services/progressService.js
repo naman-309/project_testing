@@ -11,11 +11,11 @@ import api from "./api";
  */
 
 const progressService = {
-    // GET /v1/progress/:courseId
+    // GET /progress/:courseId
     // Returns: [{ lesson_id, is_completed, watch_time, last_watched }]
     getCourseProgress: (courseId) => api.get(`/progress/${courseId}`),
 
-    // POST /v1/progress
+    // POST /progress
     // Body: { lesson_id, is_completed, watch_time }
     updateLessonProgress: (data) => api.post("/progress", data),
 };

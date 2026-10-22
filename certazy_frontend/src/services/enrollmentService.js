@@ -15,10 +15,10 @@ import api from "./api";
  */
 
 const enrollmentService = {
-    // GET /v1/enrollments — student ke saare enrolled courses
+    // GET /enrollments — student ke saare enrolled courses
     getMyEnrollments: () => api.get("/enrollments"),
 
-    // GET /v1/enrollments/:courseId — check if enrolled
+    // GET /enrollments/:courseId — check if enrolled
     checkEnrollment: (courseId) => api.get(`/enrollments/${courseId}`),
 
     // Admin endpoints as specified

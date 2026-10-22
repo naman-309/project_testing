@@ -18,7 +18,7 @@ import api from "./api";
  */
 
 const certificateService = {
-    // GET /v1/certificates — student ke saare certificates
+    // GET /certificates — student ke saare certificates
     getMyCertificates: () => api.get("/certificates"),
     
     // Public

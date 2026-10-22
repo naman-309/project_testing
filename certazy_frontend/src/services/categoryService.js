@@ -22,7 +22,6 @@ const categoryService = {
       const response = await api.get("/categories");
       return response;
     } catch (error) {
-    
       throw error;
     }
   },
@@ -32,7 +31,6 @@ const categoryService = {
     try {
       return await api.get(`/categories/slug/${slug}`);
     } catch (error) {
-  
       throw error;
     }
   },
@@ -42,7 +40,6 @@ const categoryService = {
     try {
       return await api.get(`/categories/${id}`);
     } catch (error) {
-     
       throw error;
     }
   },
@@ -55,15 +52,12 @@ const categoryService = {
         description: data.description || "",
         sort_order: data.sort_order || 1,
         is_active: data.status === "active" ? 1 : 0,
-         parent_id: data.parent_id || undefined,
+        parent_id: data.parent_id || undefined,
       };
 
-      
       const response = await api.post("/categories/create", payload);
-   
       return response;
     } catch (error) {
-   
       throw error;
     }
   },
@@ -78,12 +72,8 @@ const categoryService = {
       };
 
       const response = await api.put(`/categories/update/${id}`, payload);
-    
-  
-      
       return response;
     } catch (error) {
-    
       throw error;
     }
   },
@@ -91,12 +81,9 @@ const categoryService = {
   // DELETE category
   delete: async (id) => {
     try {
-     
       const response = await api.delete(`/categories/delete/${id}`);
-    
       return response;
     } catch (error) {
-    
       throw error;
     }
   },

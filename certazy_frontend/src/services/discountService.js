@@ -23,9 +23,9 @@ const discountService = {
     verifyToken: (token) => api.get(`/discounts/verify/${token}`),
 
     // Admin only
-    create: (data) => api.post("/discounts/", data),
+    create: (data) => api.post("/discounts", data),
     createDiscountLink: (data) => api.post("/discounts", data),
-    getAllAdmin: () => api.get("/discounts/"),
+    getAllAdmin: () => api.get("/discounts"),
     update: (id, data) => api.put(`/discounts/${id}`, data),
     delete: (id) => api.delete(`/discounts/${id}`),
 };
