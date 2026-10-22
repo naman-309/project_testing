@@ -63,8 +63,13 @@ export default function RegisterPage() {
         else if (form.name.trim().length < 2) errs.name = "Name too short";
         if (!form.email.trim()) errs.email = "Email is required";
         else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Enter a valid email";
-        if (!form.password) errs.password = "Password is required";
-        else if (form.password.length < 6) errs.password = "Minimum 6 characters";
+        if (!form.password) {
+            errs.password = "Password is required";
+        } else if (form.password.length < 8) {
+            errs.password = "Minimum 8 characters required";
+        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~`])/.test(form.password)) {
+            errs.password = "Must contain uppercase, lowercase, number & special character";
+        }
         if (!form.confirmPassword) errs.confirmPassword = "Please confirm your password";
         else if (form.password !== form.confirmPassword) errs.confirmPassword = "Passwords do not match";
         setFieldErrors(errs);
@@ -92,21 +97,27 @@ export default function RegisterPage() {
             });
 
             // Step 2 — Auto login
-            const result = await dispatch(loginUser({
-                email: form.email.trim(),
-                password: form.password,
-            })).unwrap();
+            try {
+                const result = await dispatch(loginUser({
+                    email: form.email.trim(),
+                    password: form.password,
+                })).unwrap();
 
-            // Step 3 — Toast + redirect
-            toast.success(`Welcome to Certazy, ${result.user?.name?.split(" ")[0]}! 🎉`);
-            navigate("/", { replace: true });
+                // Step 3 — Toast + redirect
+                toast.success(`Welcome to Certazy, ${result?.user?.name?.split(" ")[0] || form.name.split(" ")[0]}! 🎉`);
+                navigate("/", { replace: true });
+            } catch (loginErr) {
+                // If auto-login fails, registration was still successful
+                toast.success("Account created successfully! Please sign in.");
+                navigate("/login", { replace: true });
+            }
 
         } catch (err) {
-            toast.error(
-                err.response?.data?.message ||
-                err.message ||
-                "Registration failed. Please try again."
-            );
+            const apiErrors = err.response?.data?.errors;
+            const errorMsg = Array.isArray(apiErrors) && apiErrors.length > 0
+                ? apiErrors.join(". ")
+                : (err.response?.data?.message || err.message || "Registration failed. Please try again.");
+            toast.error(errorMsg);
         } finally {
             setSubmitting(false);
         }

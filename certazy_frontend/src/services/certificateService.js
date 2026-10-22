@@ -20,7 +20,7 @@ import api from "./api";
 const certificateService = {
     // GET /certificates — student ke saare certificates
     getMyCertificates: () => api.get("/certificates"),
-    
+
     // Public
     download: (id) => api.get(`/certificates/${id}`, { responseType: 'blob' }),
 
@@ -31,3 +31,4 @@ const certificateService = {
 };
 
 export default certificateService;
+
