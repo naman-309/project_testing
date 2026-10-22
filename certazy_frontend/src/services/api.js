@@ -81,7 +81,7 @@ api.interceptors.response.use(
 
             try {
                 const { data } = await api.post("/auth/refresh");
-                const newToken = data.data.accessToken;
+                const newToken = data.data?.accessToken || data?.accessToken;
 
                 if (injectedStore) {
                     const { setToken } = await import("@/features/auth/authSlice");

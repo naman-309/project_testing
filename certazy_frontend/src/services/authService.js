@@ -19,10 +19,12 @@ const authService = {
 
     // OAuth — browser redirect
     googleLogin: () => {
-        window.location.href = "http://localhost:5000/api/v1/auth/google";
+        const base = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/v1").replace(/\/$/, "");
+        window.location.href = `${base}/auth/google`;
     },
     githubLogin: () => {
-        window.location.href = "http://localhost:5000/api/v1/auth/github";
+        const base = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/v1").replace(/\/$/, "");
+        window.location.href = `${base}/auth/github`;
     },
 
     // Admin
