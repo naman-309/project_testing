@@ -1,4 +1,5 @@
 import React from "react";
+import authService from "@/services/authService";
 
 /**
  * SocialButtons.jsx
@@ -8,11 +9,11 @@ import React from "react";
 
 export default function SocialButtons({ label = "Continue" }) {
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:5000/api/v1/auth/google";
+        authService.googleLogin();
     };
 
     const handleGithubLogin = () => {
-        window.location.href = "http://localhost:5000/api/v1/auth/github";
+        authService.githubLogin();
     };
 
     return (
