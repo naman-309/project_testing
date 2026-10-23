@@ -99,8 +99,22 @@ api.interceptors.response.use(
                     const { clearAuth } = await import("@/features/auth/authSlice");
                     injectedStore.dispatch(clearAuth());
                 }
-                if (window.location.pathname !== "/login") {
-                    window.location.href = "/login";
+
+                // Do not redirect to /login during silent background hydration checks (/auth/me),
+                // while auth is initializing, or if already on an auth or public page.
+                const isHydrationCheck = originalRequest?.url?.includes('/auth/me');
+                const isInitializing = injectedStore?.getState()?.auth?.isInitializing;
+                const isAuthPage = window.location.pathname === "/login" ||
+                                   window.location.pathname === "/register" ||
+                                   window.location.pathname === "/oauth/callback";
+
+                if (!isHydrationCheck && !isInitializing && !isAuthPage) {
+                    const isProtected = window.location.pathname.startsWith('/admin') ||
+                                        window.location.pathname.startsWith('/student') ||
+                                        window.location.pathname.startsWith('/checkout');
+                    if (isProtected) {
+                        window.location.href = "/login";
+                    }
                 }
                 return Promise.reject(refreshError);
 
