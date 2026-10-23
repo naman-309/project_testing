@@ -2,7 +2,16 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export function ProtectedRoute({ children, allowedRoles = [] }) {
-    const { isLoggedIn, user, isFirstLogin } = useSelector((state) => state.auth);
+    const { isLoggedIn, user, isFirstLogin, isInitializing, loading } = useSelector((state) => state.auth);
+
+    // Wait for auth verification / hydration to complete before redirecting
+    if (isInitializing || (!isLoggedIn && loading)) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#F1F5F9]">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3282B8]" />
+            </div>
+        );
+    }
 
     // Check if user is logged in
     if (!isLoggedIn) {
